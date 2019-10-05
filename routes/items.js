@@ -3,7 +3,7 @@ let express = require('express');
 let router = express.Router();
 
 //Find all
-router.findAll = (req, res) => {
+router.findAllItems = (req, res) => {
     // Return a JSON representation of our list
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(items,null,5));
@@ -54,6 +54,7 @@ router.addItem = (req, res) => {
     var currentSize = items.length;
 
     items.push({"id" : id, "studentid" : req.body.studentid, "name" : req.body.name, "witbuilding" : req.body.witbuilding, "witroom": req.body.witroom, "lostitem": req.body.lostitem,  "likes" : 0});
+
 
     if((currentSize + 1) == items.length)
         res.json({ message: 'Thank you the item was added successfully!'});

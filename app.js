@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const items = require("./routes/items");
+const users = require("./routes/users");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,23 +24,35 @@ app.use('/users', usersRouter);
 
 
 //Custom Routes
-//GET
-app.get('/items', items.findAll);
+//GET (ITEMS)
+app.get('/items', items.findAllItems);
 app.get('/items/likes', items.findTotalLikes);
 app.get('/items/:id', items.findOne);
 //app.get('/items/:WITRoom', items.findByRoom);
 
-
-//POST
+//POST (ITEMS)
 app.post('/items',items.addItem);
 
-
-//PUT
+//PUT (ITEMS)
 app.put('/items/:id/like', items.incrementLikes);
 
-
-//Delete
+//Delete (ITEMS)
 app.delete('/items/:id', items.deleteItem);
+
+
+//GET (USERS)
+app.get('/users', users.findAllUsers);
+app.get('/users/:id', users.findOneUser);
+
+//POST (USERS)
+app.post('/users/:id',users.addUser);
+
+//Delete (USERS)
+app.delete('/users/:id', users.deleteUser);
+
+
+
+
 
 
 // catch 404 and forward to error handler
