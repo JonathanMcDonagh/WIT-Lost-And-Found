@@ -1,82 +1,84 @@
 let items = require('../models/items');
 let express = require('express');
 let router = express.Router();
+let mongoose = require('mongoose');
+let uriUtil = require('mongodb-uri');
+
+var Item = require('../models/items');
+var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
+
+mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
+let db = mongoose.connection;
+
+db.on('error', function (err) {
+    console.log('Unable to Connect to [ ' + db.name + ' ]', err);
+});
+db.once('open', function () {
+    console.log('Successfully Connected to [ ' + db.name + ' ] on mlab.com');
+});
+
 
 //Find all
-router.findAllItems = (req, res) => {
-    // Return a JSON representation of our list
+router.findAll = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(items,null,5));
-}
+
+    Item.find(function(err, items) {
+        if (err)
+            res.send(err);
+
+        res.send(JSON.stringify(items,null,5));
+    });
+};
+
 
 //Find one by ID
 router.findOne = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    var item = getByValue(items,req.params.id);
-    if (item != null)
-        res.send(JSON.stringify(item,null,5));
-    else
-        res.send('Sorry the item was NOT found!');
-}
-
-//Get by ID
-function getByValue(array, id) {
-    var result  = array.filter(function(obj){return obj.id == id;} );
-    return result ? result[0] : null; // or undefined
-}
+    Item.find({ "_id" : req.params.id },function(err, item) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else
+            res.send(JSON.stringify(item,null,5));
+    });
+};
 
 
-/* NOTE: Implement GET for WITRooms
-//Find by room
-router.findByRoom = (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-
-    var room = getByRoom(items,req.params.WITRoom);
-    if (room != null)
-        res.send(JSON.stringify(room,null,5));
-    else
-        res.send('Sorry the room was NOT found!!!');
-}
-
-//Get by room
-function getByRoom(array, WITRoom) {
-    var outcome  = array.filter(function(obj){return obj.WITRoom == WITRoom;} );
-    return outcome ? outcome[0] : null; // or undefined
-}
-*/
+//Add find by WITRoom//
 
 
 //Add an item
-router.addItem = (req, res) => {
-    //Add a new item to our list
-    var id = Math.floor((Math.random() * 10000) + 1); //Randomly generate an id
-    var currentSize = items.length;
+router.addItem= (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
 
-    items.push({"id" : id, "studentid" : req.body.studentid, "name" : req.body.name, "witbuilding" : req.body.witbuilding, "witroom": req.body.witroom, "lostitem": req.body.lostitem,  "likes" : 0});
+    var item = new Item();
 
+    item.studentid = req.body.studentid;
+    item.name = req.body.name;// the requested value
+    item.WITBuilding = req.body.WITBuilding;// the requested value
+    item.WITRoom = req.body.WITRoom; // the requested value
+    item.lostitem = req.body.lostitem;// the requested value
+    item.likes = req.body.likes // the requested value
 
-    if((currentSize + 1) == items.length)
-        res.json({ message: 'Thank you the item was added successfully!'});
-    else
-        res.json({ message: 'Sorry the item was NOT Added!'});
-}
+    item.save(function(err) {
+        if (err)
+            res.json({ message: 'Item NOT Added!', errmsg : err } );
+        else
+            res.json({ message: 'Item Successfully Added!', data: item });
+    });
+};
 
 
 //Deletes item
 router.deleteItem = (req, res) => {
-    //Delete the selected item based on its id
-    var item = getByValue(items,req.params.id);
-    var index = items.indexOf(item);
 
-    var currentSize = items.length;
-    items.splice(index, 1);
-
-    if((currentSize - 1) == items.length)
-        res.json({ message: 'The item was successfully deleted!'});
-    else
-        res.json({ message: 'Sorry the item was NOT deleted!'});
-}
+    Item.findByIdAndRemove(req.params.id, function(err) {
+        if (err)
+            res.json({ message: 'Item NOT DELETED!', errmsg : err } );
+        else
+            res.json({ message: 'Item Successfully Deleted!'});
+    });
+};
 
 
 //Get Total likes
@@ -86,24 +88,36 @@ function getTotalLikes(array) {
     return totalLikes;
 }
 
+
 //find total likes
 router.findTotalLikes = (req, res) => {
-    let likes = getTotalLikes(items);
-    res.json({totallikes : likes});
-}
+
+    Item.find(function(err, items) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ totallikes : getTotalLikes(items) });
+    });
+};
+
 
 //Add like
 router.incrementLikes = (req, res) => {
-    // Find the relevant item based on params id passed in
-    // Add 1 to likes property of the selected item based on its id
-    var item = getByValue(items,req.params.id);
 
-    if (item != null) {
-        item.likes += 1;
-        res.json({status : 200, message : 'Like Successful' , item : item });
-    }
-    else
-        res.send('Item was not found - Sorry the like was NOT successful!');
-}
+    Item.findById(req.params.id, function(err,item) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else {
+            item.likes += 1;
+            item.save(function (err) {
+                if (err)
+                    res.json({ message: 'Item NOT liked!', errmsg : err } );
+                else
+                    res.json({ message: 'Item Successfully liked!', data: item });
+            });
+        }
+    });
+};
+
 
 module.exports = router;

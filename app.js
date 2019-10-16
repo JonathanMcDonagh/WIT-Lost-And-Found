@@ -24,8 +24,9 @@ app.use('/users', usersRouter);
 
 
 //Custom Routes
-//GET (ITEMS)
-app.get('/items', items.findAllItems);
+//(ITEMS)
+//GET
+app.get('/items', items.findAll);
 app.get('/items/likes', items.findTotalLikes);
 app.get('/items/:id', items.findOne);
 //app.get('/items/:WITRoom', items.findByRoom);
@@ -40,18 +41,18 @@ app.put('/items/:id/like', items.incrementLikes);
 app.delete('/items/:id', items.deleteItem);
 
 
-//GET (USERS)
+//(USERS)
+//GET
 app.get('/users', users.findAllUsers);
 app.get('/users/:id', users.findOneUser);
 
 //POST (USERS)
-app.post('/users/:id',users.addUser);
+app.post('/users',users.addUser);
+
+//PUT (ITEMS)
 
 //Delete (USERS)
 app.delete('/users/:id', users.deleteUser);
-
-
-
 
 
 

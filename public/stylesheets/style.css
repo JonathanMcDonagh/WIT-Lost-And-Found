@@ -1,6 +1,7 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Sans-serif", Helvetica, Arial;
+  background-color: #ffffff;
 }
 
 a {
@@ -11,8 +12,19 @@ h1 {
   color: #2A4C9E;
 }
 
-#container {
+.introText {
   text-align: center;
+}
+
+.witLogo {
+  text-align: center;
+}
+
+
+#container {
+  width: 900px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 
