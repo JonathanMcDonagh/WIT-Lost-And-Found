@@ -31,6 +31,19 @@ router.findOneUser = (req, res) => {
   });
 };
 
+//Find user by Name
+router.findUserByName = (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+
+  User.find({ "name" : req.params.name },function(err, user) {
+    if (err)
+      res.json({ message: 'User NOT Found!', errmsg : err } );
+    else
+      res.send(JSON.stringify(user,null,5));
+  });
+};
+
+
 
 //Add a user
 router.addUser = (req, res) => {

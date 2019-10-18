@@ -43,8 +43,29 @@ router.findOne = (req, res) => {
     });
 };
 
+//Find by WITBuilding
+router.findByBuilding = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
 
-//Add find by WITRoom//
+    Item.find({ "WITBuilding" : req.params.WITBuilding },function(err, item) {
+        if (err)
+            res.json({ message: 'Building NOT Found!', errmsg : err } );
+        else
+            res.send(JSON.stringify(item,null,5));
+    });
+};
+
+//Find by WITRoom
+router.findByRoom = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    Item.find({ "WITRoom" : req.params.WITRoom },function(err, item) {
+        if (err)
+            res.json({ message: 'Room NOT Found!', errmsg : err } );
+        else
+            res.send(JSON.stringify(item,null,5));
+    });
+};
 
 
 //Add an item
@@ -52,13 +73,12 @@ router.addItem= (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     var item = new Item();
-
     item.studentid = req.body.studentid;
     item.name = req.body.name;// the requested value
     item.WITBuilding = req.body.WITBuilding;// the requested value
     item.WITRoom = req.body.WITRoom; // the requested value
     item.lostitem = req.body.lostitem;// the requested value
-    item.likes = req.body.likes // the requested value
+    item.likes = req.body.likes; // the requested value
 
     item.save(function(err) {
         if (err)
