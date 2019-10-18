@@ -24,12 +24,23 @@ app.use('/users', usersRouter);
 
 
 //Custom Routes
+//Student Details
+app.get('/student', function (req, res) {
+  res.send('STUDENT DETAILS - \n' +
+      'Name: Jonathan McDonagh \n' +
+      'Student ID: 20074520 \n' +
+      'Web App Idea: WIT Lost and Found \n' +
+      'Assignment: One');
+});
+
+
 //(ITEMS)
 //GET
 app.get('/items', items.findAll);
 app.get('/items/likes', items.findTotalLikes);
 app.get('/items/:id', items.findOne);
-//app.get('/items/:WITRoom', items.findByRoom);
+app.get('/rooms/:WITRoom', items.findByRoom);
+app.get('/building/:WITBuilding', items.findByBuilding);
 
 //POST (ITEMS)
 app.post('/items',items.addItem);
@@ -45,6 +56,7 @@ app.delete('/items/:id', items.deleteItem);
 //GET
 app.get('/users', users.findAllUsers);
 app.get('/users/:id', users.findOneUser);
+app.get('/users/name/:name', users.findUserByName);
 
 //POST (USERS)
 app.post('/users',users.addUser);
