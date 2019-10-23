@@ -7,6 +7,7 @@ let uriUtil = require('mongodb-uri');
 var Item = require('../models/items');
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
 
+
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 let db = mongoose.connection;
 
@@ -25,14 +26,14 @@ router.findAll = (req, res) => {
     Item.find(function(err, items) {
         if (err)
             res.send(err);
-
+        else
         res.send(JSON.stringify(items,null,5));
     });
 };
 
 
 //Find one by ID
-router.findOne = (req, res) => {
+router.findById = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     Item.find({ "_id" : req.params.id },function(err, item) {
@@ -42,6 +43,7 @@ router.findOne = (req, res) => {
             res.send(JSON.stringify(item,null,5));
     });
 };
+
 
 //Find by WITBuilding
 router.findByBuilding = (req, res) => {
@@ -54,6 +56,7 @@ router.findByBuilding = (req, res) => {
             res.send(JSON.stringify(item,null,5));
     });
 };
+
 
 //Find by WITRoom
 router.findByRoom = (req, res) => {
@@ -85,6 +88,30 @@ router.addItem= (req, res) => {
             res.json({ message: 'Item NOT Added!', errmsg : err } );
         else
             res.json({ message: 'Item Successfully Added!', data: item });
+    });
+};
+
+
+//Updates Item
+router.updateItem = (req, res) => {
+
+    Item.findById(req.params.id, function(err,item) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else {
+            item.studentid = req.body.studentid; //updated value
+            item.name = req.body.name; //updated value
+            item.WITBuilding = req.body.WITBuilding; //updated value
+            item.WITRoom = req.body.WITRoom; //updated value
+            item.lostitem = req.body.lostitem; //updated value
+            item.likes = req.body.likes; //updated value
+            item.save(function (err) {
+                if (err)
+                    res.json({ message: 'Item NOT updated!', errmsg : err } );
+                else
+                    res.json({ message: 'Item Successfully updated!', data: item });
+            });
+        }
     });
 };
 

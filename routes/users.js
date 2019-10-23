@@ -1,10 +1,9 @@
-let users = require('../models/users');
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 let uriUtil = require('mongodb-uri');
+let User = require('../models/users');
 
-var User = require('../models/users');
 
 //Find all users
 router.findAllUsers = (req, res) => {
@@ -13,7 +12,6 @@ router.findAllUsers = (req, res) => {
   User.find(function(err, users) {
     if (err)
       res.send(err);
-
     res.send(JSON.stringify(users,null,5));
   });
 };
@@ -31,6 +29,7 @@ router.findOneUser = (req, res) => {
   });
 };
 
+
 //Find user by Name
 router.findUserByName = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -42,7 +41,6 @@ router.findUserByName = (req, res) => {
       res.send(JSON.stringify(user,null,5));
   });
 };
-
 
 
 //Add a user
@@ -75,5 +73,6 @@ router.deleteUser = (req, res) => {
       res.json({ message: 'User Successfully Deleted!'});
   });
 };
+
 
 module.exports = router;

@@ -10,6 +10,7 @@ var app = express();
 const items = require("./routes/items");
 const users = require("./routes/users");
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,7 +39,7 @@ app.get('/student', function (req, res) {
 //GET
 app.get('/items', items.findAll);
 app.get('/items/likes', items.findTotalLikes);
-app.get('/items/:id', items.findOne);
+app.get('/items/:id', items.findById);
 app.get('/rooms/:WITRoom', items.findByRoom);
 app.get('/building/:WITBuilding', items.findByBuilding);
 
@@ -46,7 +47,9 @@ app.get('/building/:WITBuilding', items.findByBuilding);
 app.post('/items',items.addItem);
 
 //PUT (ITEMS)
-app.put('/items/:id/like', items.incrementLikes);
+app.put('/item/:id/like', items.incrementLikes);
+app.put('/item/update/:id', items.updateItem); //Updates item
+
 
 //Delete (ITEMS)
 app.delete('/items/:id', items.deleteItem);
@@ -61,11 +64,11 @@ app.get('/users/name/:name', users.findUserByName);
 //POST (USERS)
 app.post('/users',users.addUser);
 
-//PUT (ITEMS)
+//PUT (USERS)
+
 
 //Delete (USERS)
 app.delete('/users/:id', users.deleteUser);
-
 
 
 // catch 404 and forward to error handler
