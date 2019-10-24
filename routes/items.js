@@ -3,9 +3,10 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 let uriUtil = require('mongodb-uri');
+let Item = require('../models/items');
 
-var Item = require('../models/items');
-var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
+
+let mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
 
 
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -27,7 +28,7 @@ router.findAll = (req, res) => {
         if (err)
             res.send(err);
         else
-        res.send(JSON.stringify(items,null,5));
+            res.send(JSON.stringify(items,null,5));
     });
 };
 
@@ -71,17 +72,30 @@ router.findByRoom = (req, res) => {
 };
 
 
+//Find by Student ID
+router.findByStudentId = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    Item.find({ "studentid" : req.params.studentid },function(err, item) {
+        if (err)
+            res.json({ message: 'Student NOT Found!', errmsg : err } );
+        else
+            res.send(JSON.stringify(item,null,5));
+    });
+};
+
+
 //Add an item
 router.addItem= (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     var item = new Item();
     item.studentid = req.body.studentid;
-    item.name = req.body.name;// the requested value
-    item.WITBuilding = req.body.WITBuilding;// the requested value
-    item.WITRoom = req.body.WITRoom; // the requested value
-    item.lostitem = req.body.lostitem;// the requested value
-    item.likes = req.body.likes; // the requested value
+    item.name = req.body.name; //the requested value
+    item.WITBuilding = req.body.WITBuilding; //the requested value
+    item.WITRoom = req.body.WITRoom; //the requested value
+    item.lostitem = req.body.lostitem; //the requested value
+    item.likes = req.body.likes; //the requested value
 
     item.save(function(err) {
         if (err)
@@ -116,7 +130,26 @@ router.updateItem = (req, res) => {
 };
 
 
-//Deletes item
+//Updates Name
+router.updateLostItemName = (req, res) => {
+
+    Item.findById(req.params.id, function(err,item) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else {
+            item.lostitem = req.body.lostitem; //updated value
+            item.save(function (err) {
+                if (err)
+                    res.json({ message: 'Name NOT updated!', errmsg : err } );
+                else
+                    res.json({ message: 'Name Successfully updated!', data: item });
+            });
+        }
+    });
+};
+
+
+//Deletes Item
 router.deleteItem = (req, res) => {
 
     Item.findByIdAndRemove(req.params.id, function(err) {
@@ -125,6 +158,35 @@ router.deleteItem = (req, res) => {
         else
             res.json({ message: 'Item Successfully Deleted!'});
     });
+};
+
+
+//find total posts
+router.findTotalPosts = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+/*
+    let totalPosts = items.length;
+    let i = 0;
+    let err;
+    while (i < totalPosts){
+        i++;
+        return i;
+        if(i === totalPosts){
+            res.json({message: 'Total Posts:', i});
+        }
+        else {
+            res.json({message: 'Could NOT find total amount of posts!', errmsg: err});
+        }
+    }*/
+
+    let totalPosts = items.length;
+    let err;
+    if(err)
+        res.json({message: 'Could NOT find total amount of posts!', errmsg: err});
+    else
+        res.json({message: 'Total Posts:', totalPosts});
+
 };
 
 

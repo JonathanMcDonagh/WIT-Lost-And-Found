@@ -37,38 +37,40 @@ app.get('/student', function (req, res) {
 
 //(ITEMS)
 //GET
-app.get('/items', items.findAll);
-app.get('/items/likes', items.findTotalLikes);
-app.get('/items/:id', items.findById);
-app.get('/rooms/:WITRoom', items.findByRoom);
-app.get('/building/:WITBuilding', items.findByBuilding);
+app.get('/items', items.findAll); //Find all items
+app.get('/items/likes', items.findTotalLikes); //Find total likes
+app.get('/items/total', items.findTotalPosts); //Find total Posts
+app.get('/items/:id', items.findById); //Find by ID
+app.get('/students/:studentid', items.findByStudentId); //Find by Student ID
+app.get('/rooms/:WITRoom', items.findByRoom); //Find by WIT Room
+app.get('/building/:WITBuilding', items.findByBuilding); //Find by WIT Building
 
 //POST (ITEMS)
-app.post('/items',items.addItem);
+app.post('/items',items.addItem); //Adds item
 
 //PUT (ITEMS)
-app.put('/item/:id/like', items.incrementLikes);
-app.put('/item/update/:id', items.updateItem); //Updates item
-
+app.put('/item/:id/like', items.incrementLikes); //Adds like to item
+app.put('/item/:id/update', items.updateItem); //Updates item
+app.put('/item/lostitem/:id/update', items.updateLostItemName); //Updates item
 
 //Delete (ITEMS)
-app.delete('/items/:id', items.deleteItem);
+app.delete('/items/:id', items.deleteItem); //Deletes item
 
 
 //(USERS)
 //GET
-app.get('/users', users.findAllUsers);
-app.get('/users/:id', users.findOneUser);
-app.get('/users/name/:name', users.findUserByName);
+app.get('/users', users.findAllUsers); //Find all users
+app.get('/users/:id', users.findOneUser); //Find by ID
+app.get('/users/name/:name', users.findUserByName); //Find by name
 
 //POST (USERS)
-app.post('/users',users.addUser);
+app.post('/users', users.addUser); //Adds a user
 
 //PUT (USERS)
 
 
 //Delete (USERS)
-app.delete('/users/:id', users.deleteUser);
+app.delete('/users/:id', users.deleteUser); //Deletes a user
 
 
 // catch 404 and forward to error handler
@@ -87,5 +89,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
