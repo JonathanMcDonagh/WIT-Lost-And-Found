@@ -3,22 +3,26 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "set NODE_ENV=test && mocha test/functional/api/itemsTest.js --exit",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "set NODE_ENV=test && mocha tests/functional/api/itemsTest.js --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "fuse.js": "^3.4.5",
     "http-errors": "~1.6.3",
-    "mocha": "^6.2.1",
-    "mongodb": "^3.3.2",
-    "mongoose": "latest",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.3.3",
+    "mongoose": "^5.7.6",
     "morgan": "~1.9.1",
     "test": "^0.6.0"
   },
   "devDependencies": {
-    "mongodb-uri": "^0.9.7"
+    "chai": "^4.0.2",
+    "mocha": "^6.2.0",
+    "mongodb-uri": "^0.9.7",
+    "supertest": "^4.0.2"
   }
 }
