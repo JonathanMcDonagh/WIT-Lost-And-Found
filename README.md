@@ -9,7 +9,7 @@ With WIT-Lost-And-Found users will be able to post items they have found, they i
   - WIT Building
   - WIT Room
   - Lost Item Description  
-Items can be liked 
+  - Items can be liked 
 
 Their is also a users model which includes the following fields:
   - Email
