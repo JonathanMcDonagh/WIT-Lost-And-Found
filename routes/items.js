@@ -1,4 +1,3 @@
-let items = require('../models/items');
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
@@ -6,9 +5,10 @@ let uriUtil = require('mongodb-uri');
 let Item = require('../models/items');
 
 
-let mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
+var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
 
 
+// noinspection JSIgnoredPromiseFromCall
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 let db = mongoose.connection;
 
@@ -161,32 +161,31 @@ router.deleteItem = (req, res) => {
 };
 
 
+//Get total Posts
+function getTotalPosts() {
+    let x = Item.length;
+    let totalPosts = 0;
+    let err;
+
+    while(x !== totalPosts)
+        totalPosts++;
+    if(totalPosts === x)
+        return totalPosts;
+    else
+        return err;
+}
+
+
 //find total posts
 router.findTotalPosts = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-/*
-    let totalPosts = items.length;
-    let i = 0;
-    let err;
-    while (i < totalPosts){
-        i++;
-        return i;
-        if(i === totalPosts){
-            res.json({message: 'Total Posts:', i});
-        }
-        else {
-            res.json({message: 'Could NOT find total amount of posts!', errmsg: err});
-        }
-    }*/
-
-    let totalPosts = items.length;
-    let err;
-    if(err)
-        res.json({message: 'Could NOT find total amount of posts!', errmsg: err});
-    else
-        res.json({message: 'Total Posts:', totalPosts});
-
+    Item.find(function(err, items) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ totalPosts : getTotalPosts(items) });
+    });
 };
 
 
