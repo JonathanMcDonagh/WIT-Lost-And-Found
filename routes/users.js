@@ -49,10 +49,9 @@ router.addUser = (req, res) => {
 
   var user = new User();
 
-  user.email = req.body.email;
-  user.name = req.body.name;
-  user.password = req.body.password;
-  user.posts = req.body.posts;
+  user.email = req.body.email; //Request value
+  user.name = req.body.name; //Request value
+  user.password = req.body.password; //Request value
 
   user.save(function(err) {
     if (err)

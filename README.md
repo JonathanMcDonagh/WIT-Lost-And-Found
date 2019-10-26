@@ -26,6 +26,7 @@ ITEMS:
   - Find items based on student id
   - Find items based on WIT Room
   - Find items based on WIT Building
+  - Find lost item based on Fuzzy Search
   - Add items
   - Add like to item
   - Update item
@@ -39,5 +40,10 @@ USERS:
   - Delete user
 
 Includes MongoDB Persistence using Atlas
+
+References:
+
+Risk, K. (2019). Fuse.js. [online] Fusejs.io. Available at: https://fusejs.io [Accessed 25 Oct. 2019].
+(For Fuzzy Search)
 
 https://github.com/JonathanMcDonagh/WIT-Lost-And-Found

@@ -41,17 +41,18 @@ app.get('/items', items.findAll); //Find all items
 app.get('/items/likes', items.findTotalLikes); //Find total likes
 app.get('/items/total', items.findTotalPosts); //Find total Posts
 app.get('/items/:id', items.findById); //Find by ID
-app.get('/students/:studentid', items.findByStudentId); //Find by Student ID
+app.get('/items/student/:studentid', items.findByStudentId); //Find by Student ID
 app.get('/rooms/:WITRoom', items.findByRoom); //Find by WIT Room
 app.get('/building/:WITBuilding', items.findByBuilding); //Find by WIT Building
 
 //POST (ITEMS)
 app.post('/items',items.addItem); //Adds item
+app.post('/lostitem/search', items.fuzzySearch); //Fuzzy Search
 
 //PUT (ITEMS)
 app.put('/item/:id/like', items.incrementLikes); //Adds like to item
 app.put('/item/:id/update', items.updateItem); //Updates item
-app.put('/item/lostitem/:id/update', items.updateLostItemName); //Updates item
+app.put('/item/lostitem/:id/update', items.updateLostItemName); //Updates the lost items description
 
 //Delete (ITEMS)
 app.delete('/items/:id', items.deleteItem); //Deletes item
@@ -65,9 +66,6 @@ app.get('/users/name/:name', users.findUserByName); //Find by name
 
 //POST (USERS)
 app.post('/users', users.addUser); //Adds a user
-
-//PUT (USERS)
-
 
 //Delete (USERS)
 app.delete('/users/:id', users.deleteUser); //Deletes a user

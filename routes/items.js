@@ -3,6 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let uriUtil = require('mongodb-uri');
 let Item = require('../models/items');
+let Fuse = require('fuse.js');
 
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/witlostandfounddb?retryWrites=true&w=majority';
 
@@ -12,10 +13,10 @@ mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true }
 let db = mongoose.connection;
 
 db.on('error', function (err) {
-    console.log('Unable to Connect to [ ' + db.name + ' ]', err);
+    console.log('Unable to connect to [ ' + db.name + ' ]', err);
 });
 db.once('open', function () {
-    console.log('Successfully Connected to [ ' + db.name + ' ] on mlab.com');
+    console.log('Successfully connected to WIT-Lost-And-Found Database as ' + db.name);
 });
 
 
@@ -84,8 +85,34 @@ router.findByStudentId = (req, res) => {
 };
 
 
+//Fuzzy Search (fusejs.io)
+router.fuzzySearch = (req, res) => {
+
+    Item.find(function (err, items) {
+        let options = {
+            shouldSort: true,
+            threshold: 0.6,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: ['lostitem']
+        };
+
+        let fuse = new Fuse(items, options);
+        let searchedItem = Item.lostitem = req.body.lostitem; //Request fuzzy value
+        let fuseSearch = fuse.search(searchedItem);
+
+        if(searchedItem != null)
+            res.json({ message: 'Fuzzy Search: ', fuseSearch});
+        else
+            res.json({ message: 'You must enter a valid value to search!', err});
+    })
+};
+
+
 //Add an item
-router.addItem= (req, res) => {
+router.addItem = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     var item = new Item();
@@ -94,7 +121,6 @@ router.addItem= (req, res) => {
     item.WITBuilding = req.body.WITBuilding; //the requested value
     item.WITRoom = req.body.WITRoom; //the requested value
     item.lostitem = req.body.lostitem; //the requested value
-    item.likes = req.body.likes; //the requested value
 
     item.save(function(err) {
         if (err)
@@ -118,6 +144,7 @@ router.updateItem = (req, res) => {
             item.WITRoom = req.body.WITRoom; //updated value
             item.lostitem = req.body.lostitem; //updated value
             item.likes = req.body.likes; //updated value
+
             item.save(function (err) {
                 if (err)
                     res.json({ message: 'Item NOT updated!', errmsg : err } );
@@ -208,7 +235,7 @@ router.findTotalLikes = (req, res) => {
 };
 
 
-//Add like
+//Add like to item
 router.incrementLikes = (req, res) => {
 
     Item.findById(req.params.id, function(err,item) {
