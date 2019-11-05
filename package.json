@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www && node app.js",
-    "test": "set NODE_ENV=test && mocha tests/functional/api/itemsTest.js --exit"
+    "start": "node ./bin/www",
+    "test": "cross-env NODE_ENV=test mocha --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,14 +15,16 @@
     "http-errors": "~1.6.3",
     "lodash": "^4.17.15",
     "mongodb": "^3.3.3",
+    "mongodb-memory-server": "^6.0.1",
     "mongoose": "^5.7.6",
     "morgan": "~1.9.1",
-    "test": "^0.6.0"
+    "test": "^0.6.0",
+    "mongodb-uri": "^0.9.7"
   },
   "devDependencies": {
     "chai": "^4.0.2",
+    "cross-env": "^6.0.3",
     "mocha": "^6.2.0",
-    "mongodb-uri": "^0.9.7",
     "supertest": "^4.0.2"
   }
 }
