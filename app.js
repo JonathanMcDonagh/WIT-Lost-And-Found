@@ -9,6 +9,7 @@ var app = express();
 
 const items = require("./routes/items");
 const users = require("./routes/users");
+const cors = require("cors");
 
 
 // view engine setup
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

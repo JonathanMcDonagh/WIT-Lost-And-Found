@@ -28,7 +28,7 @@ router.findAll = (req, res) => {
         if (err)
             res.send(err);
         else
-            res.send(JSON.stringify(items,null,5));
+            res.send(items,null,5);
     });
 };
 
@@ -41,7 +41,7 @@ router.findById = (req, res) => {
         if (err)
             res.json({ message: 'Item NOT Found!', errmsg : err } );
         else
-            res.send(JSON.stringify(item,null,5));
+            res.send(item,null,5);
     });
 };
 
@@ -54,7 +54,7 @@ router.findByBuilding = (req, res) => {
         if (err)
             res.json({ message: 'Building NOT Found!', errmsg : err } );
         else
-            res.send(JSON.stringify(item,null,5));
+            res.send(item,null,5);
     });
 };
 
@@ -67,7 +67,7 @@ router.findByRoom = (req, res) => {
         if (err)
             res.json({ message: 'Room NOT Found!', errmsg : err } );
         else
-            res.send(JSON.stringify(item,null,5));
+            res.send(item,null,5);
     });
 };
 
@@ -80,7 +80,7 @@ router.findByStudentId = (req, res) => {
         if (err)
             res.json({ message: 'Student NOT Found!', errmsg : err } );
         else
-            res.send(JSON.stringify(item,null,5));
+            res.send(item,null,5);
     });
 };
 
