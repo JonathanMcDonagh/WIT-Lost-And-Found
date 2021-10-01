@@ -3,7 +3,7 @@ Node/Express Server
 
 Jonathan McDonagh
 
-Web App Development 2 - Assignment
+## Web App Development 2 Module
 
 Year 4 Semester 1 of BSc (Hons) in Software Systems Development
 
