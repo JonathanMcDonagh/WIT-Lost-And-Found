@@ -1,4 +1,4 @@
-## WIT Lost and Found - Assignment
+# WIT Lost and Found - Assignment
 
 Name: Jonathan McDonagh
 
