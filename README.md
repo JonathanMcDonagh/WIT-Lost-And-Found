@@ -1,11 +1,16 @@
-# WIT-Lost-And-Found
-Node/Express Server
+## WIT Lost and Found - Assignment
 
-Jonathan McDonagh
+Name: Jonathan McDonagh
 
-## Web App Development 2 Module
+## Web App Development 2
 
-Year 4 Semester 1 of BSc (Hons) in Software Systems Development
+BSc (Hons) in Software Systems Development - Year 4 Semester 1
+
+**Grade:** 81%  
+
+## Overview
+
+**WIT Lost And Found is a Web App made using the MEVN stack**
 
 With WIT-Lost-And-Found users will be able to post items they have found, they include the following fields:
   - Student Id
@@ -15,13 +20,14 @@ With WIT-Lost-And-Found users will be able to post items they have found, they i
   - Lost Item Description  
   - Items can be liked 
 
-Their is also a users model which includes the following fields:
+There is also a users model which includes the following fields:
   - Email
   - Name
   - Password
   - Posts
   
-The routes inlcuded are:
+The routes included are:
+
 ITEMS:
   - Find all items
   - Find total likes
@@ -36,6 +42,7 @@ ITEMS:
   - Update item
   - Updated lost item description
   - Delete item
+  
 USERS:
   - Find all users
   - Find by id
