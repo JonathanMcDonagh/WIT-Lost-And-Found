@@ -1,7 +1,11 @@
 # WIT-Lost-And-Found
 Node/Express Server
 
-Jonathan McDonagh / 20074520
+Jonathan McDonagh
+
+Web App Development 2 - Assignment
+
+Year 4 Semester 1 of BSc (Hons) in Software Systems Development
 
 With WIT-Lost-And-Found users will be able to post items they have found, they include the following fields:
   - Student Id
@@ -49,3 +53,6 @@ Risk, K. (2019). Fuse.js. [online] Fusejs.io. Available at: https://fusejs.io [A
 https://github.com/JonathanMcDonagh/WIT-Lost-And-Found
 
 https://youtu.be/E7omMYRa47g (Youtube Video)
+
+
+## Completed December 2019
